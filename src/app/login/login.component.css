@@ -1,0 +1,19 @@
+.container{
+    width: 50%;
+    background-color: white;
+    align-content: center;
+}
+
+.logo{
+    text-align: center;
+    height: 50px;
+}
+
+form input, form button{
+    padding: 10px;
+}
+
+form button{
+    color: white;
+    background-color: #0c9;
+}

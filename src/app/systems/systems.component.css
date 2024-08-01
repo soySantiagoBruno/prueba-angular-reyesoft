@@ -1,0 +1,22 @@
+  .logo{
+    height: 50px;
+  }
+
+  .contenedor-activos {
+    max-width: 80%;
+    margin: auto;
+
+    height: 70vh;
+    overflow-y: auto;
+}
+.card{
+  transition: transform 0.3s;
+}
+
+.card:hover{
+  border-width: 3px;
+  border-color: #00cc99;
+  
+  transform: scale(1.2);  
+  z-index: 100;
+}

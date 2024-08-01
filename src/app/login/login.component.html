@@ -35,7 +35,7 @@
         <!--Alerta en caso de que el correo o contraseña sean incorrectos-->
         <div *ngIf="loginFallido" class="alert alert-danger fs-6">El correo y/o contraseña son incorrectos.</div>
         
-        <button type="submit" class="btn w-100 " [ngClass]="formularioLogin.invalid? 'disabled' : '' ">Iniciar Sesión</button>
+        <button type="submit" class="btn btn-success w-100 " [ngClass]="formularioLogin.invalid? 'disabled' : '' "><i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión</button>
     </form>
 </div>
 

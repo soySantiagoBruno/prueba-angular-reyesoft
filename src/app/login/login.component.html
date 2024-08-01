@@ -2,21 +2,30 @@
 
     <!--Logo Saldo-->
     <div class="logo">
-        <img src="assets/logo-saldo.png" alt="Logo de Saldo" class="h-100">
+        <img  src="assets/logo-saldo.png" alt="Logo de Saldo">
     </div>
 
     <h2 class="h2">Inicia sesión</h2>
 
-    <form class="fs-4">
+    <form [formGroup]="formularioLogin" (ngSubmit)="onSubmit()"  class="fs-4">
+        
+        <!--Se aplica la clase 'is-invalid' cuando: el campo a sido modificado pero es invalido ó cuando el campo ha sido tocado -->
         <div class="mb-3">
-            <input type="email" class="form-control" id="email" placeholder="Correo electrónico">
+            <input type="email" formControlName="email" class="form-control" placeholder="Correo electrónico" required
+            
+            [ngClass]="formularioLogin.get('email')?.invalid && (formularioLogin.get('email')?.dirty || formularioLogin.get('email')?.touched) ? 'is-invalid': '' "
+            [ngClass]="formularioLogin.get('email')?.valid ? 'is-valid' : '' "
+            >
         </div>
         
         <div class="mb-3">
-            <input type="password" class="form-control" id="password" placeholder="Contraseña">
+            <input type="password" formControlName="password" class="form-control" placeholder="Contraseña" required
+            [ngClass]="formularioLogin.get('password')?.invalid && (formularioLogin.get('password')?.touched || formularioLogin.get('password')?.dirty) ? 'is-invalid' : '' "
+            [ngClass]="formularioLogin.get('password')?.valid ? 'is-valid' : '' "
+            >
         </div>
 
-        <button type="button" class="btn w-100 ">Iniciar Sesión</button>
+        <button type="submit" class="btn w-100 ">Iniciar Sesión</button>
     </form>
 
 </div>

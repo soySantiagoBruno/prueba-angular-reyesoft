@@ -51,6 +51,8 @@ export class LoginComponent implements OnInit{
         // A falta de token, voy a usar esta respuesta para saber si estoy logueado
         localStorage.setItem('respuestaApi', data.name);
       },
+
+      // desactiva el cartel de error al loguear (aunque es innecesario porque no se alcanza a ver por el redireccionamiento)
       error: () => this.loginFallido = true,
     });
   }

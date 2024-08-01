@@ -5,28 +5,37 @@
         <img  src="assets/logo-saldo.png" alt="Logo de Saldo">
     </div>
 
-    <h2 class="h2">Inicia sesión</h2>
+    <h2 class="h2 mt-3">Inicia sesión</h2>
 
-    <form [formGroup]="formularioLogin" (ngSubmit)="onSubmit()"  class="fs-4">
+    <form [formGroup]="formularioLogin" (ngSubmit)="onSubmit()">
         
         <!--Se aplica la clase 'is-invalid' cuando: el campo a sido modificado pero es invalido ó cuando el campo ha sido tocado -->
         <div class="mb-3">
             <input type="email" formControlName="email" class="form-control" placeholder="Correo electrónico" required
             
-            [ngClass]="formularioLogin.get('email')?.invalid && (formularioLogin.get('email')?.dirty || formularioLogin.get('email')?.touched) ? 'is-invalid': '' "
-            [ngClass]="formularioLogin.get('email')?.valid ? 'is-valid' : '' "
+            [ngClass]="{
+                'is-invalid': formularioLogin.get('email')?.invalid && (formularioLogin.get('email')?.dirty || formularioLogin.get('email')?.touched),
+                
+                'is-valid': formularioLogin.get('email')?.valid
+            }"
             >
+            <div class="invalid-feedback">Por favor ingrese un email válido</div>
         </div>
         
         <div class="mb-3">
             <input type="password" formControlName="password" class="form-control" placeholder="Contraseña" required
-            [ngClass]="formularioLogin.get('password')?.invalid && (formularioLogin.get('password')?.touched || formularioLogin.get('password')?.dirty) ? 'is-invalid' : '' "
-            [ngClass]="formularioLogin.get('password')?.valid ? 'is-valid' : '' "
+            [ngClass]="{
+                'is-invalid': formularioLogin.get('password')?.invalid && (formularioLogin.get('password')?.touched || formularioLogin.get('password')?.dirty),
+                'is-valid': formularioLogin.get('password')?.valid
+            } "
             >
+            <div class="invalid-feedback">Por favor ingrese una contraseña</div>
         </div>
 
+        <!--Alerta en caso de que el correo o contraseña sean incorrectos-->
+        <div *ngIf="loginFallido" class="alert alert-danger fs-6">El correo y/o contraseña son incorrectos.</div>
+        
         <button type="submit" class="btn w-100 ">Iniciar Sesión</button>
     </form>
-
 </div>
 

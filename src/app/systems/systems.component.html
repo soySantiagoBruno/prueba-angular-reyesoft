@@ -1,4 +1,5 @@
-    
+<div class="contenedor-principal">
+    <!--Navbar-->
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
 
@@ -7,7 +8,7 @@
                 <img src="/assets/logo-saldo.png" alt="logo saldo" class="logo">
                 <span class="navbar-text ms-3 fs-3">¡Hola {{nombreUsuario}}!</span>
             </a>
-    
+
             <!--Boton para colapsar-->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,24 +24,51 @@
                     <li class="nav-item">
                     </li>
                 </ul>
-                
-                <button class="btn btn-danger" type="button" (click)="cerrarSesion()"><i class="bi bi-box-arrow-left"></i> Cerrar Sesión</button>
-                                
+
+                <button class="btn btn-danger" type="button" (click)="cerrarSesion()"><i
+                        class="bi bi-box-arrow-left"></i>
+                    Cerrar Sesión</button>
+
             </div>
-        
-        
+
+
         </div>
     </nav>
-    
-    <h3 class="text-center">Seleccione el activo con el que quiere intercambiar</h3>
-    <div class="contenedor-activos">
-    
-        <div class="w-100 row row-cols-sm-5 m-0 d-flex justify-content-center">
-    
-            <div class="card m-1" *ngFor="let item of activos.data; let i=index">
-              <img src='{{"https://api.saldo.com.ar/img/sistemas2/"+item.id+".big.png"}}' class="card-img-top" alt="...">
-            </div>
-            
-          </div>
-    
+
+    <h3 class="text-center">Seleccione el activo que desea consultar</h3>
+
+    <!--Filtro-->
+    <div class="row row-cols-auto m-0 justify-content-center">
+        <div class="dropdown ms-1 p-0">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <span><i class="bi bi-filter-circle"></i> Filtrar por tipo de moneda</span>
+            </button>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="dropdown-item" 
+                    *ngFor="let currency of currencies; let j=index"
+                    (click)='currencySelected=currency; filterActivos()'
+                    >{{currency}}</a>
+                </li>
+            </ul>
+
+        </div>
     </div>
+
+    <!--Animacion de carga para las imagenes de los sistemas-->
+    <div class="d-flex justify-content-center" *ngIf="loading">
+        <div class="loader"></div>
+    </div>
+
+    <div class="container contenedor-secundario mt-0">
+        <!--Fila con cards de activos-->
+        <div class="row row-cols-auto m-0 justify-content-center">
+            <div class="card m-1" *ngFor="let item of activosFiltrados.data; let i=index">
+                <img src='{{"https://api.saldo.com.ar/img/sistemas2/"+item.id+".big.png"}}' class="card-img-top"
+                    alt="..." (load)="onImageLoad()">
+            </div>
+        </div>
+    </div>
+
+</div>

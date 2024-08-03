@@ -35,11 +35,18 @@ export class UserService {
     });
   }
 
-  // Verifica que el usuario no este logueado, en caso de que si, es redirijido a /systems
+  // Verifica que el usuario este logueado
   estaLogueado(){
+    // Si esta logueado, es redirijido a /systems
     if(localStorage.getItem('respuestaApi')){
       this.router.navigate(['/systems']);
     }
+
+    // Si no esta logueado es redirijido a /login
+    else if(!localStorage.getItem('respuestaApi')){
+      this.router.navigate(['/login'])
+    }
+
   }
 
 }

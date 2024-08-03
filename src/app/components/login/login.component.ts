@@ -27,6 +27,7 @@ export class LoginComponent implements OnInit{
 
   
   ngOnInit(): void {
+    // Verifica que el usuario NO este logueado
     this.userService.estaLogueado();
 
     // cambia el estado del booleano para mostrar una alerta en el login indicando que se ingreso incorrectamente el email y/o password

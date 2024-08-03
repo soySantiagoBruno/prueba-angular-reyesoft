@@ -2,6 +2,7 @@ import { NgFor, NgIf } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-systems',
@@ -36,13 +37,14 @@ export class SystemsComponent implements OnInit{
 
 
   ngOnInit(): void {
+    this.getSystemInformationById("bitcoin");
     // Si ingreso a este componente sin estar logueado, redirijo a login. Para ello verifico que tenga el nombre guardado en el local storage
     if(!localStorage.getItem('respuestaApi')){
       this.router.navigate(['/login'])
     }
 
     // Cargo los activos en la variable para poder ser usado en la plantilla con ngFor
-    this.http.get('https://api.saldo.com.ar/v3/systems').subscribe(data =>{
+    this.http.get('https://api.saldo.com.ar/v3/systems?include=rates,system_information').subscribe(data =>{
       this.activos=data;      
       
       // Extraigo las currencies disponibles para poder armar el filtro
@@ -81,5 +83,15 @@ export class SystemsComponent implements OnInit{
       };
     }
   }
+
+  // traigo el system information mediante el id del sistema
+  // cuidado da un error al usarlo en el html
+  getSystemInformationById(id: string){
+    return this.http.get<any>(`https://api.saldo.com.ar/v3/systems?include=system_information&filter[id]=${id}`).subscribe(data => console.log(data.included[0].attributes.description));
+    
+  }
+  
+
+
 
 }

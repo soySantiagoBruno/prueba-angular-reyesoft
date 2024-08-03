@@ -47,10 +47,8 @@
             </button>
             <ul class="dropdown-menu">
                 <li>
-                    <a class="dropdown-item" 
-                    *ngFor="let currency of currencies; let j=index"
-                    (click)='currencySelected=currency; filterActivos()'
-                    >{{currency}}</a>
+                    <a class="dropdown-item" *ngFor="let currency of currencies; let j=index"
+                        (click)='currencySelected=currency; filterActivos()'>{{currency}}</a>
                 </li>
             </ul>
         </div>
@@ -60,14 +58,32 @@
     <div class="d-flex justify-content-center m-3" *ngIf="loading">
         <div class="loader"></div>
     </div>
-    
+
 
     <div class="container contenedor-secundario mt-0">
         <!--Fila con cards de activos-->
-        <div class="row row-cols-auto m-0 justify-content-center">
-            <div class="card m-1" *ngFor="let item of activosFiltrados.data; let i=index">
-                <img src='{{"https://api.saldo.com.ar/img/sistemas2/"+item.id+".big.png"}}' class="card-img-top"
-                    alt="..." (load)="onImageLoad()">
+        <div class="row row-cols-auto mt-2 mb-2 justify-content-center">
+            <div class="card m-1" 
+            *ngFor="let item of activosFiltrados.data; let i=index">
+                <img data-bs-toggle="modal" [attr.data-bs-target]="'#modal' + i"
+                    src='{{"https://api.saldo.com.ar/img/sistemas2/"+item.id+".big.png"}}' class="card-img-top"
+                    (load)="onImageLoad()">
+
+                <!-- Modal -->
+                <div class="modal fade" [id]="'modal' + i" tabindex="-1">
+                    <!--En esta clase se puede cambiar el tipo de modal-->
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5">{{item.attributes.name}}</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>descripcion</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

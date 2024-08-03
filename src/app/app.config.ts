@@ -10,7 +10,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }), 
     provideRouter(routes),
     
-    // Disabling Image Performance Warnings (un error tonto que aparece)
+    // Disabling Image Performance Warnings (un error tonto que aparece al linkear imágenes)
     { provide: IMAGE_CONFIG, useValue: { disableImageSizeWarning: true, disableImageLazyLoadWarning: true } },
     
     // Servicio http para hacer request

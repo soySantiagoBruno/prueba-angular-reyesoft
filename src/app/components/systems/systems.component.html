@@ -79,7 +79,12 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
                             <div class="modal-body">
-                                <p>{{descripciones[i]}}</p>
+                                <p>Descripción: 
+                                    <span *ngIf="!descripciones[i]?.description">No tenemos descripciones para este sistema</span>
+                                    <span *ngIf="descripciones[i]?.description">{{descripciones[i]?.description}}</span>
+                                </p>
+                                <p *ngIf="descripciones[i]?.pros">Pros: {{descripciones[i]?.pros}}</p>
+                                <p *ngIf="descripciones[i]?.cons">Contras: {{descripciones[i]?.cons}}</p>
                             </div>
                         </div>
                     </div>

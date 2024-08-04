@@ -6,6 +6,7 @@ import { map, Observable, Subscription } from 'rxjs';
 import { SystemsService } from '../../services/systems.service';
 import { UserService } from '../../services/user.service';
 import { SystemsJson } from '../../models/systems-json';
+import { FullDescription } from '../../models/full-description';
 
 @Component({
   selector: 'app-systems',
@@ -27,7 +28,7 @@ export class SystemsComponent implements OnInit{
   // por default el filtro se establece en Todos (no filtra)
   currencySelected: string= 'Todos'
   
-  descripciones: (string|undefined) [] = [];
+  descripciones: (FullDescription|undefined) [] = [];
   
   // esto es para la pantalla de carga
   loading = true;
@@ -39,7 +40,7 @@ export class SystemsComponent implements OnInit{
 
   ngOnInit(): void {
 
-    this.systemsService.descriptionsToArray().subscribe((descripciones: (string|undefined)[]) => {
+    this.systemsService.descriptionsToArray().subscribe((descripciones: (FullDescription|undefined)[]) => {
       this.descripciones = descripciones;
       console.log(descripciones);
       

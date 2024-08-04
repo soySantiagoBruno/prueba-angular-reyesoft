@@ -35,6 +35,11 @@ export class UserService {
     });
   }
 
+  cerrarSesion(){
+    localStorage.clear()  
+    this.router.navigate(['/login'])
+  }
+
   // Verifica que el usuario este logueado
   estaLogueado(){
     // Si esta logueado, es redirijido a /systems

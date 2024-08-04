@@ -2,7 +2,10 @@ import { NgFor, NgIf } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { map, Observable } from 'rxjs';
+import { map, Observable, Subscription } from 'rxjs';
+import { SystemsService } from '../../services/systems.service';
+import { UserService } from '../../services/user.service';
+import { SystemsJson } from '../../models/systems-json';
 
 @Component({
   selector: 'app-systems',
@@ -13,37 +16,41 @@ import { map, Observable } from 'rxjs';
 })
 export class SystemsComponent implements OnInit{
 
+
+
   nombreUsuario: string = localStorage.getItem('respuestaApi') || '';
   
   // cargo los activos
-  
   activos: any = {};
   activosFiltrados: any = {};
-
   currencies: string[] = [];
   // por default el filtro se establece en Todos (no filtra)
   currencySelected: string= 'Todos'
-
-
+  
+  descripciones: (string|undefined) [] = [];
   
   // esto es para la pantalla de carga
   loading = true;
   loadedImages: number = 0;
 
-  constructor(private router: Router, private http: HttpClient){
-  }
 
-
+  constructor(private systemsService: SystemsService, private userService: UserService, private http: HttpClient, private router: Router){}
 
 
   ngOnInit(): void {
-    this.getSystemInformationById("bitcoin");
-    // Si ingreso a este componente sin estar logueado, redirijo a login. Para ello verifico que tenga el nombre guardado en el local storage
-    if(!localStorage.getItem('respuestaApi')){
-      this.router.navigate(['/login'])
-    }
 
-    // Cargo los activos en la variable para poder ser usado en la plantilla con ngFor
+    this.systemsService.descriptionsToArray().subscribe((descripciones: (string|undefined)[]) => {
+      this.descripciones = descripciones;
+      console.log(descripciones);
+      
+    });
+    
+
+    // Verifica que el usuario este logueado
+    this.userService.estaLogueado()
+    
+    // GRAN REFACTORIZACION para systemsService
+    //Cargo los activos en la variable para poder ser usado en la plantilla con ngFor
     this.http.get('https://api.saldo.com.ar/v3/systems?include=rates,system_information').subscribe(data =>{
       this.activos=data;      
       
@@ -57,14 +64,15 @@ export class SystemsComponent implements OnInit{
       this.filterActivos();
     });
     
+
   }
+
 
   cerrarSesion(){
-    localStorage.clear()  
-    this.router.navigate(['/login'])
+    this.userService.cerrarSesion();
   }
 
-  // Utilizada para mostrar animación de carga para las imágenes de los activos
+  // Muestra animación de carga para las imágenes de los activos
   onImageLoad(): void {
     this.loadedImages++;
     if (this.loadedImages === this.activos.data.length) {
@@ -83,14 +91,6 @@ export class SystemsComponent implements OnInit{
       };
     }
   }
-
-  // traigo el system information mediante el id del sistema
-  // cuidado da un error al usarlo en el html
-  getSystemInformationById(id: string){
-    return this.http.get<any>(`https://api.saldo.com.ar/v3/systems?include=system_information&filter[id]=${id}`).subscribe(data => console.log(data.included[0].attributes.description));
-    
-  }
-  
 
 
 

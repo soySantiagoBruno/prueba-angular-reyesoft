@@ -62,7 +62,7 @@
 
     <div class="container contenedor-secundario mt-0">
         <!--Fila con cards de activos-->
-        <div class="row row-cols-auto mt-2 mb-2 justify-content-center">
+        <div class="row row-cols-auto m-3 mt-2 mb-2 justify-content-center">
             <div class="card m-1" 
             *ngFor="let item of activosFiltrados.data; let i=index">
                 <img data-bs-toggle="modal" [attr.data-bs-target]="'#modal' + i"
@@ -79,7 +79,7 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
                             <div class="modal-body">
-                                <p>descripcion</p>
+                                <p>{{descripciones[i]}}</p>
                             </div>
                         </div>
                     </div>

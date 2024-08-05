@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { SystemsJson } from '../models/systems-json';
 import { map, Observable } from 'rxjs';
 import { FullDescription } from '../models/full-description';
+import { SistemasCarga } from '../models/sistemas-carga';
 
 @Injectable({
   providedIn: 'root',
@@ -50,4 +51,46 @@ export class SystemsService {
         })
       );
   }
+
+
+
+  
+  // CARGA DE SISTEMAS
+
+  // cargo los activos
+  activos: any = {};
+  activosFiltrados: any = {};
+  currencies: string[] = [];
+  // por default el filtro se establece en Todos (no filtra)
+  currencySelected: string= 'Todos'
+
+  cargarSystems(): Observable<any>{
+
+    return this.http
+    .get('https://api.saldo.com.ar/v3/systems?include=rates,system_information')
+    .pipe(
+      map((data: any) =>{   
+
+        //Cargo los activos
+        this.activos=data;      
+
+        // A partir de this.activos, extraigo las currencies disponibles para poder armar el filtro
+        this.currencies = Array.from(new Set(this.activos.data.map((item: any) => item.attributes.currency)));
+
+        // agrega la opción "Todos" para usar en el filtro
+        this.currencies.unshift("Todos")
+        
+        
+        let sistemasCarga: SistemasCarga = {
+          currencies: this.currencies,
+          activos: this.activos,
+          currencySelected: this.currencySelected
+        };
+
+        return sistemasCarga;
+      })
+    )
+  }
+
+
 }

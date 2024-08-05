@@ -7,6 +7,7 @@ import { SystemsService } from '../../services/systems.service';
 import { UserService } from '../../services/user.service';
 import { SystemsJson } from '../../models/systems-json';
 import { FullDescription } from '../../models/full-description';
+import { SistemasCarga } from '../../models/sistemas-carga';
 
 @Component({
   selector: 'app-systems',
@@ -18,51 +19,39 @@ import { FullDescription } from '../../models/full-description';
 export class SystemsComponent implements OnInit{
 
 
-
   nombreUsuario: string = localStorage.getItem('respuestaApi') || '';
   
-  // cargo los activos
   activos: any = {};
   activosFiltrados: any = {};
   currencies: string[] = [];
-  // por default el filtro se establece en Todos (no filtra)
-  currencySelected: string= 'Todos'
-  
-  descripciones: (FullDescription|undefined) [] = [];
-  
-  // esto es para la pantalla de carga
-  loading = true;
-  loadedImages: number = 0;
+  currencySelected: string= 'Todos'; // por default el filtro se establece en Todos (no filtra)
+  descripciones: (FullDescription|undefined) [] = []; // Llenado con descriptionsToArray()
+
 
 
   constructor(private systemsService: SystemsService, private userService: UserService, private http: HttpClient, private router: Router){}
 
 
   ngOnInit(): void {
-
-    this.systemsService.descriptionsToArray().subscribe((descripciones: (FullDescription|undefined)[]) => {
-      this.descripciones = descripciones;
-      console.log(descripciones);
-      
-    });
     
-
     // Verifica que el usuario este logueado
     this.userService.estaLogueado()
     
-    // GRAN REFACTORIZACION para systemsService
-    //Cargo los activos en la variable para poder ser usado en la plantilla con ngFor
-    this.http.get('https://api.saldo.com.ar/v3/systems?include=rates,system_information').subscribe(data =>{
-      this.activos=data;      
-      
-      // Extraigo las currencies disponibles para poder armar el filtro
-      this.currencies = Array.from(new Set(this.activos.data.map((item: any) => item.attributes.currency)));
 
-      // agrega la opción "Todos" para usar en el filtro
-      this.currencies.unshift("Todos")
+    // carga los sistemas a ser mostrados
+    this.systemsService.cargarSystems().subscribe((data: SistemasCarga) => {
+      this.currencies = data.currencies;
+      this.activos = data.activos;
+      this.currencySelected = data.currencySelected;
 
-      // Inicialmente, muestra todos los activos
+      // Se invoca al principio para mostrar todos los activos
       this.filterActivos();
+    })
+
+
+    // carga las descripciones de los sistemas
+    this.systemsService.descriptionsToArray().subscribe((descripciones: (FullDescription|undefined)[]) => {
+      this.descripciones = descripciones;
     });
     
 
@@ -74,14 +63,17 @@ export class SystemsComponent implements OnInit{
   }
 
   // Muestra animación de carga para las imágenes de los activos
+  loading = true;
+  loadedImages: number = 0;
   onImageLoad(): void {
     this.loadedImages++;
-    if (this.loadedImages === this.activos.data.length) {
+    if (this.loadedImages === this.activosFiltrados.data.length) {
       this.loading = false;
     }
   }  
 
-  // cambia el valor de activosFiltrados dependiendo de currencySelected
+
+  //cambia el valor de activosFiltrados dependiendo de currencySelected
   filterActivos(): void {
     if (this.currencySelected === 'Todos') {
       this.activosFiltrados = this.activos;
@@ -92,7 +84,6 @@ export class SystemsComponent implements OnInit{
       };
     }
   }
-
 
 
 }

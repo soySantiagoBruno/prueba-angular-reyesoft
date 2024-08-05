@@ -1,55 +1,8 @@
-.navbar{
-  box-shadow: 0 3px 14px #0000000d, 0 3px 14px #0000000d;
-}
+.contenedor-principal {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 
-.logo {
-    height: 50px;
-}
-
-.contenedor-activos {
-  width: 70%;
-  margin: auto;
-  background-color: red;
-}
-
-
-
-.card:hover {
-  border-width: 3px;
-  border-color: #00cc99;
-}
-
-
-
-
-.contenedor-principal{
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  margin: 0px;
-  width: 100%;
-}
-
-.contenedor-secundario{
-  height: 70%;
-  width: 100%;
-  
-  overflow: scroll; 
-  overflow-x: hidden;
-  margin: auto;
-}
-
-
-/* HTML: <div class="loader"></div> */
-.loader {
-  width: 120px;
-  height: 20px;
-  border-radius: 20px;
-  background:
-   linear-gradient(#0c9 0 0) 0/0% no-repeat
-   lightblue;
-  animation: l2 2s infinite steps(10);
-}
-@keyframes l2 {
-    100% {background-size:110%}
+    margin: 0px;
+    width: 100%;
 }

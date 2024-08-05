@@ -1,0 +1,43 @@
+.contenedor-activos {
+    width: 70%;
+    margin: auto;
+    background-color: red;
+}
+
+
+
+.card:hover {
+    border-width: 3px;
+    border-color: #00cc99;
+}
+
+
+
+
+.contenedor-secundario {
+    height: 65vh;
+    width: 100%;
+
+    overflow-y: scroll;
+    margin: auto;
+}
+
+
+/* HTML: <div class="loader"></div> */
+.loader {
+    width: 120px;
+    height: 20px;
+    border-radius: 20px;
+    background:
+     linear-gradient(#0c9 0 0) 0/0% no-repeat
+     lightblue;
+    animation: l2 2s infinite steps(10);
+  }
+  @keyframes l2 {
+      100% {background-size:110%}
+  }
+
+.caja{
+    background-color: red;
+    height: 100vh;
+}

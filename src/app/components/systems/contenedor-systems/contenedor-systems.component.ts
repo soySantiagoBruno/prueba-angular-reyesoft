@@ -20,6 +20,10 @@ export class ContenedorSystemsComponent implements OnInit{
   currencySelected: string = 'Todos'; // por default el filtro se establece en Todos (no filtra)
   descripciones: (FullDescription | undefined)[] = []; // Llenado con descriptionsToArray()
 
+  // Imagen por defecto (puede ser una imagen genérica o vacía)
+  selectedItemImageUrl?: string = `https://api.saldo.com.ar/img/sistemas2/banco.big.png`;
+
+
   constructor(private systemsService: SystemsService){}
 
   ngOnInit(): void {
@@ -37,9 +41,13 @@ export class ContenedorSystemsComponent implements OnInit{
     // carga las descripciones de los sistemas
     this.systemsService.descriptionsToArray().subscribe((descripciones: (FullDescription|undefined)[]) => {
       this.descripciones = descripciones;
+
+    this.selectedItemImageUrl = `https://api.saldo.com.ar/img/sistemas2/${item.id}.big.png`;
     });
     
+
   }
+  
 
 
   // Muestra animación de carga para las imágenes de los activos
@@ -65,4 +73,15 @@ export class ContenedorSystemsComponent implements OnInit{
       };
     }
   }
+
+
+
+
+  selectItem(item: any) {
+    this.selectedItemImageUrl = `https://api.saldo.com.ar/img/sistemas2/${item.id}.big.png`;
+    // Aquí puedes agregar lógica para actualizar el formulario con el valor del ítem seleccionado
+  }
+
+
+
 }

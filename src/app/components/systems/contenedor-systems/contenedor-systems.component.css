@@ -22,6 +22,11 @@
     margin: auto;
 }
 
+.lista-intercambio{
+    height: 400%;
+    overflow-y: scroll;
+}
+
 
 /* HTML: <div class="loader"></div> */
 .loader {
@@ -36,8 +41,3 @@
   @keyframes l2 {
       100% {background-size:110%}
   }
-
-.caja{
-    background-color: red;
-    height: 100vh;
-}

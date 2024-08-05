@@ -32,18 +32,67 @@
                 <!--En esta clase se puede cambiar el tipo de modal-->
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
+
                         <div class="modal-header">
                             <h1 class="modal-title fs-5">{{item.attributes.name}}</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
+
                         <div class="modal-body">
+                            
                             <p>Descripción: 
                                 <span *ngIf="!descripciones[i]?.description">No tenemos descripciones para este sistema</span>
                                 <span *ngIf="descripciones[i]?.description">{{descripciones[i]?.description}}</span>
                             </p>
                             <p *ngIf="descripciones[i]?.pros">Pros: {{descripciones[i]?.pros}}</p>
                             <p *ngIf="descripciones[i]?.cons">Contras: {{descripciones[i]?.cons}}</p>
+
+                            <!--Calculadora-->
+                            <div class="input-group mb-3 border">
+                                <div class="form-floating is-invalid">
+                                    <input type="number" class="form-control" id="floatingInput"
+                                    style="height: 70px;" placeholder="name@example.com">
+                                    <label for="floatingInput">Envías ARS</label>
+                            
+                                </div> 
+
+                                <button class="btn p-0" type="button" 
+                                    aria-expanded="false">
+                                    <img style="width: 80%;" src='{{"https://api.saldo.com.ar/img/sistemas2/"+item.id+".big.png"}}' alt="">
+                                </button>
+
+                            </div>
+
+                            <div class="input-group dropup mb-3 border">
+                                <div class="form-floating is-invalid">
+                                    <span type="number" class="form-control" id="floatingInput"
+                                    style="height: 70px;" placeholder="name@example.com"
+                                    >123</span>
+                                    <label for="floatingInput">Recibes ARS</label>
+                            
+                                </div> 
+
+                                <button class="btn dropdown-toggle p-0" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <img style="width: 80%;" [src]="selectedItemImageUrl" alt="">
+                                </button>
+
+                                <!--Lista de intercambio-->
+                                <ul class="dropdown-menu dropdown-menu-end drop lista-intercambio">
+                                    <li *ngFor="let item of activos.data; let i=index">
+                                        <a class="dropdown-item" (click)="selectItem(item)">
+                                            <img style="width: 80%;" [src]="'https://api.saldo.com.ar/img/sistemas2/' + item.id + '.big.png'" alt="">
+                                        </a>
+                                    </li>
+
+                                    
+                                </ul>
+                                
+
+                            </div>
+
                         </div>
+
                     </div>
                 </div>
             </div>

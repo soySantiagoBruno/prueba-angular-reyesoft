@@ -4,15 +4,17 @@ import { SystemsService } from '../../../services/systems.service';
 import { FullDescription } from '../../../models/full-description';
 import { SistemasCarga } from '../../../models/sistemas-carga';
 import { NgFor, NgIf } from '@angular/common';
+import { FormsModule, NgModel } from '@angular/forms';
 
 @Component({
   selector: 'app-contenedor-systems',
   standalone: true,
-  imports: [NgFor, NgIf],
+  imports: [NgFor, NgIf, FormsModule],
   templateUrl: './contenedor-systems.component.html',
   styleUrl: './contenedor-systems.component.css',
 })
 export class ContenedorSystemsComponent implements OnInit{
+  dineroEnviado: any;
 
   activos: any = {};
   activosFiltrados: any = {};
@@ -42,7 +44,8 @@ export class ContenedorSystemsComponent implements OnInit{
     this.systemsService.descriptionsToArray().subscribe((descripciones: (FullDescription|undefined)[]) => {
       this.descripciones = descripciones;
 
-    this.selectedItemImageUrl = `https://api.saldo.com.ar/img/sistemas2/${item.id}.big.png`;
+    // Cargo imagen por defecto a mostrar en el intercambio
+    this.selectedItemImageUrl = "assets/default.png";
     });
     
 

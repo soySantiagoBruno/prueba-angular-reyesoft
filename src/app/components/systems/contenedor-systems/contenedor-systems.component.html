@@ -53,7 +53,7 @@
                                     <input type="number" class="form-control" id="floatingInput"
                                     [(ngModel)] = "dineroEnviado"
                                     style="height: 70px;" placeholder="name@example.com">
-                                    <label for="floatingInput">Envías ARS</label>
+                                    <label for="floatingInput">Envías {{item.attributes.currency}}</label>
                             
                                 </div> 
 
@@ -67,9 +67,13 @@
                             <div class="input-group dropup mb-3 border">
                                 <div class="form-floating is-invalid">
                                     <span type="number" class="form-control" id="floatingInput"
-                                    style="height: 70px;" placeholder="name@example.com"
-                                    >123</span>
-                                    <label for="floatingInput">Recibes ARS</label>
+                                    style="height: 70px;">
+                                <!-- ACA VA DIVIDIDO LOS PESOS PERUANOS-->
+                                    {{convertirMoneda(dineroEnviado, item.id, idCurrencyRecibida)}}
+                                </span>
+                                    
+                                    
+                                    <label for="floatingInput">Recibes {{currencyRecibida}}</label>
                             
                                 </div> 
 
@@ -81,7 +85,7 @@
                                 <!--Lista de intercambio-->
                                 <ul class="dropdown-menu dropdown-menu-end drop lista-intercambio">
                                     <li *ngFor="let item of activos.data; let i=index">
-                                        <a class="dropdown-item" (click)="selectItem(item)">
+                                        <a class="dropdown-item" (click)="selectItem(item); setCurrencyRecibida(item)">
                                             <img style="width: 80%;" [src]="'https://api.saldo.com.ar/img/sistemas2/' + item.id + '.big.png'" alt="">
                                         </a>
                                     </li>

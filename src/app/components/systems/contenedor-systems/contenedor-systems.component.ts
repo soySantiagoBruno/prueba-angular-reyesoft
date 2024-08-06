@@ -22,8 +22,9 @@ export class ContenedorSystemsComponent implements OnInit{
   currencySelected: string = 'Todos'; // por default el filtro se establece en Todos (no filtra)
   descripciones: (FullDescription | undefined)[] = []; // Llenado con descriptionsToArray()
 
-  // Imagen por defecto (puede ser una imagen genérica o vacía)
-  selectedItemImageUrl?: string = `https://api.saldo.com.ar/img/sistemas2/banco.big.png`;
+  selectedItemImageUrl?: string = `https://api.saldo.com.ar/img/sistemas2/banco.big.png`; // Imagen por defecto (puede ser una imagen genérica o vacía)
+  currencyRecibida: any = "";
+  idCurrencyRecibida: any;
 
 
   constructor(private systemsService: SystemsService){}
@@ -78,11 +79,30 @@ export class ContenedorSystemsComponent implements OnInit{
   }
 
 
-
-
   selectItem(item: any) {
     this.selectedItemImageUrl = `https://api.saldo.com.ar/img/sistemas2/${item.id}.big.png`;
     // Aquí puedes agregar lógica para actualizar el formulario con el valor del ítem seleccionado
+  }
+
+  setCurrencyRecibida(currencyRecibida: any){
+    this.currencyRecibida = currencyRecibida.attributes.currency;
+    this.idCurrencyRecibida = currencyRecibida.id
+  }
+
+  // Sea a: dinero enviado, b: dinero recibido convertido (ejemplo: envío 1 DAI -> recibo 1385,57 ARS)
+  convertirMoneda(cantidadAConvertir: number, sistemaA: string, sistemaB: string): number | undefined | string{
+    // Encuentra el objeto correspondiente en el array 'included'
+    const rateObject = this.activos.included.find((item: any) => item.id === `${sistemaA}_${sistemaB}`);
+
+    if (rateObject && rateObject.attributes && rateObject.attributes.price) {
+      const price = rateObject.attributes.price;
+      // Realiza la conversión de la moneda usando el precio encontrado
+      const valorConvertido = cantidadAConvertir / price;
+      return valorConvertido.toFixed(2);
+    } else {
+      // Si no se encuentra el objeto o no tiene el precio, devuelve undefined
+      return "No podemos convertir estos sistemas, intenta con otro";
+    }
   }
 
 

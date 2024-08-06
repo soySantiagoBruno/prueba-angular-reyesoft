@@ -40,12 +40,12 @@
 
                         <div class="modal-body">
                             
-                            <p>Descripción: 
+                            <p><span class="badge text-bg-primary font-weight-bold">Descripción: </span>
                                 <span *ngIf="!descripciones[i]?.description">No tenemos descripciones para este sistema</span>
                                 <span *ngIf="descripciones[i]?.description">{{descripciones[i]?.description}}</span>
                             </p>
-                            <p *ngIf="descripciones[i]?.pros">Pros: {{descripciones[i]?.pros}}</p>
-                            <p *ngIf="descripciones[i]?.cons">Contras: {{descripciones[i]?.cons}}</p>
+                            <p *ngIf="descripciones[i]?.pros"><span class="badge text-bg-success font-weight-bold">Pros: </span>{{descripciones[i]?.pros}}</p>
+                            <p *ngIf="descripciones[i]?.cons"><span class="badge text-bg-danger font-weight-bold">Contras: </span>{{descripciones[i]?.cons}}</p>
 
                             <!--Calculadora-->
                             <div class="input-group mb-3 border">

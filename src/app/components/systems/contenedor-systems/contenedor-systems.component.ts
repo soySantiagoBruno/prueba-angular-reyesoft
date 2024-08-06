@@ -101,7 +101,7 @@ export class ContenedorSystemsComponent implements OnInit{
       return valorConvertido.toFixed(2);
     } else {
       // Si no se encuentra el objeto o no tiene el precio, devuelve undefined
-      return "No podemos convertir estos sistemas, intenta con otro";
+      return "Introduce un sistema válido";
     }
   }
 
